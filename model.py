@@ -61,3 +61,30 @@ def piuRedditizi(self):
 
     return top5def
 
+#COMPONENTI DEBOLMENTE CONNESSE
+    #4-7-2024
+#ORIENTATO!!!!!!!!
+def getConnesse(self): #componenti debolmente connesse
+    self._debolmenteConnesse = list(nx.weakly_connected_components(self._grafo))
+    return len(list(nx.weakly_connected_components(self._grafo)))
+
+
+def getMaxConnessa(self): #COMPONENTE DEBOLMENTE CONNESSA DI MASSIMA DIMENSIONE
+    max = 0
+    maxConnessa = None
+
+    for com in self._debolmenteConnesse:
+        lista = list(com)
+        if len(lista) > max:
+            max = len(lista)
+            maxConnessa = lista
+
+    return maxConnessa,max
+
+#n nodi / n edges
+    def getNumNodes(self):
+        return len(self.grafo.nodes)
+
+    def getNumEdges(self):
+        return len(self.grafo.edges)
+
