@@ -83,8 +83,8 @@ def getMaxConnessa(self): #COMPONENTE DEBOLMENTE CONNESSA DI MASSIMA DIMENSIONE
 
 #n nodi / n edges
     def getNumNodes(self):
-        return len(self.grafo.nodes)
+        return len(self._grafo.nodes)
 
     def getNumEdges(self):
-        return len(self.grafo.edges)
+        return len(self._grafo.edges)
 

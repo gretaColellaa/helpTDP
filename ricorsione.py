@@ -191,7 +191,36 @@ def _ricorsioneLunghezza(self, parziale):
 
 
 
+#DREAM TEAM - TASSO DI SCONFITTE MINORE CON CONBINAZIONE DI NODI PARI A K (SCELTO DA UTENTE)
+    def cercaDreamTeam(self, k):
+        self._best_team = []
+        self._min_defeats = float('inf')
 
+
+        self._ricorsione([], 0, 0, k)
+
+        return self._best_team, self._min_defeats
+
+    def _ricorsione(self, parziale, livello, start, k):
+        if livello == k:
+            sconfitte = self._calcolaSconfitte(parziale)
+            if sconfitte < self._min_defeats:
+                self._min_defeats = sconfitte
+                self._best_team = parziale.copy()
+            return
+
+        for i in range(start, len(self._nodes)):
+            parziale.append(self._nodes[i])
+            self._ricorsione(parziale, livello + 1, i + 1, k)
+            parziale.pop()
+
+    def _calcolaSconfitte(self, team):
+        team_set = set(team)
+        sconfitte = 0
+        for u, v in self._grafo.edges():
+            if u not in team_set and v in team_set:
+                sconfitte += 1
+        return sconfitte
 
 
 
