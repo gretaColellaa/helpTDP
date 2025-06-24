@@ -1,5 +1,6 @@
 
 import copy
+import heapq
 import random
 
 
@@ -192,7 +193,7 @@ def _ricorsioneLunghezza(self, parziale):
 
 
 #DREAM TEAM - TASSO DI SCONFITTE MINORE CON CONBINAZIONE DI NODI PARI A K (SCELTO DA UTENTE)
-    def cercaDreamTeam(self, k):
+def cercaDreamTeam(self, k):
         self._best_team = []
         self._min_defeats = float('inf')
 
@@ -201,7 +202,7 @@ def _ricorsioneLunghezza(self, parziale):
 
         return self._best_team, self._min_defeats
 
-    def _ricorsione(self, parziale, livello, start, k):
+def _ricorsione(self, parziale, livello, start, k):
         if livello == k:
             sconfitte = self._calcolaSconfitte(parziale)
             if sconfitte < self._min_defeats:
@@ -214,7 +215,7 @@ def _ricorsioneLunghezza(self, parziale):
             self._ricorsione(parziale, livello + 1, i + 1, k)
             parziale.pop()
 
-    def _calcolaSconfitte(self, team):
+def _calcolaSconfitte(self, team):
         team_set = set(team)
         sconfitte = 0
         for u, v in self._grafo.edges():
@@ -227,7 +228,7 @@ def _ricorsioneLunghezza(self, parziale):
 
 #SIMULAZIONE CON PROBABILITA' DI EVENTI
 #24-2-21
-    def simula(self, N):
+def simula(self, N):
         self._best_team = self._idMapPlayers[self._bestP][0]
         g_h = 11
         g_a = 11
@@ -439,6 +440,44 @@ def _ricorsione(self, parziale):
                 heapq.heappush(coda_eventi, (tempo_fine + peso, stazione, prossimo))
 
         return len(preparati), tempo_totale
+
+
+
+    #RICORSIONE - INSIEME DI ARCHI A DUE A DUE INDIPENDENTI (NON ADIACENTI)
+    #CHE MASSIMIZZANO L'APPORTO CALORICO
+
+    def getBestPath(self,v0Nome):
+        v0=self._idMap[v0Nome]
+        self._solBest = []
+        self._costBest = 0
+        parziale = []
+        for v in self._grafo.nodes:
+            parziale.append(v)
+            self.ricorsione(parziale,v0)
+            parziale.pop()
+        return self._solBest, self._costBest
+
+    def ricorsione(self, parziale,v0):
+        # Controllo se parziale è una sol valida, ed in caso se è migliore del best
+         if v0 in parziale:
+            if self.peso(parziale) > self._costBest:
+                self._costBest = self.peso(parziale)
+                self._solBest = copy.deepcopy(parziale)
+
+         for v in self._grafo.nodes:
+             if v not in self._grafo.neighbors(parziale[-1]):
+                if v not in parziale:
+                    parziale.append(v)
+                    self.ricorsione(parziale,v0)
+                    parziale.pop()
+
+    def peso(self,parziale):
+        peso=0
+        for nodi in parziale:
+            peso+=nodi.calories
+        return peso
+
+
 
 
 
