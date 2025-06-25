@@ -88,3 +88,18 @@ def getMaxConnessa(self): #COMPONENTE DEBOLMENTE CONNESSA DI MASSIMA DIMENSIONE
     def getNumEdges(self):
         return len(self._grafo.edges)
 
+//connessi
+    def getConnessi(self, v0, v1):
+        percorso = []
+        connessa = nx.node_connected_component(self.grafo, v0)
+        if v1 in connessa:
+            percorso = nx.dijkstra_path(self.grafo, v0, v1)
+        return percorso
+
+    def getTuttiConnessi(self, v0):
+        raggiungibili = []
+        for nodi in nx.dfs_tree(self.grafo, v0):
+            raggiungibili.append(nodi)
+        return raggiungibili
+
+
