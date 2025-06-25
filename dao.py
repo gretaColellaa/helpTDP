@@ -173,3 +173,4 @@ JOIN drivers d ON res.driverId = d.driverId
 WHERE res.position <= 3
 ORDER BY r.date, res.position;
 #✅ Podio di tutte le gare, ordinato per data e posizione.
+
